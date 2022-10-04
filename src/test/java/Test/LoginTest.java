@@ -35,13 +35,11 @@ public class LoginTest extends BaseTest {
 
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        String expectedResultemail= "email";
-        String actualResultemail=loginPage.getEmailField().getAttribute("type");
-        Assert.assertEquals(actualResultemail,expectedResultemail);
+        String expectedResultEmail= "email";
+        String actualResultEmail=loginPage.getEmailField().getAttribute("type");
+        Assert.assertEquals(actualResultEmail,expectedResultEmail);
 
-      //PROVERIIIIII!!!!!!!
-       /*homePage.openLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));*/
+
         String expectedResultPassword="password";
         String actualResultPassword=loginPage.getPasswordField().getAttribute("type");
         Assert.assertEquals(actualResultPassword,expectedResultPassword);
