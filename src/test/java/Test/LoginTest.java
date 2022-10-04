@@ -38,8 +38,7 @@ public class LoginTest extends BaseTest {
         String expectedResultEmail= "email";
         String actualResultEmail=loginPage.getEmailField().getAttribute("type");
         Assert.assertEquals(actualResultEmail,expectedResultEmail);
-
-
+        
         String expectedResultPassword="password";
         String actualResultPassword=loginPage.getPasswordField().getAttribute("type");
         Assert.assertEquals(actualResultPassword,expectedResultPassword);
