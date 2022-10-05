@@ -61,19 +61,15 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(actualMessage,expectedMessage);                          //Verifikacija da li greska sadrzi poruku User does not exists
 
         String expectedUrlRoute="https://vue-demo.daniel-avellaneda.com/login";     //ocekivani URL stranice
-        String actualUrlResult= loginPage.getDriver().getCurrentUrl();              //pomocu getCurrentUrl() metode citam stvarnu adresu stranice
+        String actualUrlResult= driver.getCurrentUrl();              //pomocu getCurrentUrl() metode citam stvarnu adresu stranice
 
         Assert.assertTrue(actualUrlResult.endsWith(expectedUrlRoute));              //pomocu metode endsWith() verifikujem da li se stvarni URL yavrsava sa /login
 
 
     }
 
-    //Test #4: Displays errors when password is wrong
-    //Podaci: random email i password koristeći faker libarary
-    //asssert:
-    //•	Verifikovati da greska sadrzi poruku Wrong password
-    //•	Verifikovati da se u url-u stranice javlja /login ruta
-    @Test
+
+    @Test (priority = 4)
     public void displayErrorsWhenPasswordIsWrongTest(){
         homePage.openLoginPage();                                                //pomocu metode openLoginPage() otvaram Login Page
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));       //dodajem waiter
@@ -92,17 +88,26 @@ public class LoginTest extends BaseTest {
         String actualMessage= wrongPasswordMesage.getText();                       //uz pomoc getText() metode citam tekst poruke koji se stvarno prikazuje
         Assert.assertEquals(actualMessage,expectedMessage);                         ////Verifikacija da li greska sadrzi poruku Wrong password
 
-        String actualUrl= loginPage.getDriver().getCurrentUrl();                    //citam trenutni url
+        String actualUrl= driver.getCurrentUrl();                                   //citam trenutni url
         String expectedPartUrl="/login";                                            //deo ocekivanog URL
         Assert.assertTrue(actualUrl.contains(expectedPartUrl));                     //Verifikacija da li se u url-u stranice javlja /login ruta
 
-
-
-
-
-
     }
 
+    @Test (priority = 5)
+    public void loginTest() throws InterruptedException {
+        homePage.openLoginPage();                                                      //pomocu metode openLoginPage() otvaram Login Page
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));             //dodajem waiter
+        String email= "admin@admin.com";                                               //deklarisem i dodeljujem vrednost za email
+        String password= "12345";                                                      ///deklarisem i dodeljujem vrednost za password
+        loginPage.login(email,password);                                                //prosledjujem metodi login vrednosti email i password
+
+        Thread.sleep(1000);                                                       //bez thread sleep-a izbacuje gresku, sa njim uspesno izvrsava test
+        String actualUrl= driver.getCurrentUrl();                                       //metodom CurrentUrl() citam trenutni url
+        String expectedPartUrl="/home";                                                  //deklarisem i dodeljujem vrednost za ocekivani deo URL /home
+
+        Assert.assertTrue(actualUrl.contains(expectedPartUrl));                          //Verifikacija da se u url-u stranice javlja /home ruta
+    }
 
 
 }
