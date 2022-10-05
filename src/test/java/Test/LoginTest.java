@@ -109,24 +109,24 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(actualUrl.contains(expectedPartUrl));                          //Verifikacija da se u url-u stranice javlja /home ruta
     }
 
-    //Test #6: Logout
-    //assert:
-    //•	Verifikovati da je dugme logout vidljivo na stranici
-    //•	Verifikovati da se u url-u stranice javlja /login ruta
-    //•	Verifikovati da se nakon pokušaja otvaranja /home rute, u url-u stranice javlja /login ruta
-
-    @Test (dependsOnMethods={"loginTest"})
     public void logoutTest() throws InterruptedException {
 
 
-        WebElement logoutBtn= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]"));
-        Assert.assertTrue(logoutBtn.isDisplayed());
+        WebElement logoutBtn= driver.findElement                                       //pronalazim logout button
+                (By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]"));
+        Assert.assertTrue(logoutBtn.isDisplayed());                                    //Verifikacija da li je dugme logout vidljivo na stranici
 
-        /*Thread.sleep(1000);
-        String actualUrl= driver.getCurrentUrl();                                       //metodom CurrentUrl() citam trenutni url
-        String expectedPartUrl="/login";                                                  //deklarisem i dodeljujem vrednost za ocekivani deo URL /login
-        Assert.assertTrue(actualUrl.contains(expectedPartUrl));*/
-        
+        logoutBtn.click();                                                             //klik na logout button
+        Thread.sleep(1000);
+
+
+        String actualUrl = driver.getCurrentUrl();                                      //metodom CurrentUrl() citam trenutni url
+        String expectedPartUrl="/login";                                                //deklarisem i dodeljujem vrednost za ocekivani deo URL /login
+        Assert.assertTrue(actualUrl.contains(expectedPartUrl));                         //Verifikacija da li se u url-u stranice javlja /login ruta
+
+        driver.get("https://vue-demo.daniel-avellaneda.com/home");                      //pomocu driver.get() otvaram home /home rutu
+        Thread.sleep(2000);
+        Assert.assertTrue(driver.getCurrentUrl().contains(expectedPartUrl));            //Verifikacija da li se nakon pokušaja otvaranja /home rute, u url-u stranice javlja /login ruta
 
 
     }
