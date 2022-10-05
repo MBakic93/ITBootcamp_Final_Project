@@ -68,6 +68,41 @@ public class LoginTest extends BaseTest {
 
     }
 
+    //Test #4: Displays errors when password is wrong
+    //Podaci: random email i password koristeći faker libarary
+    //asssert:
+    //•	Verifikovati da greska sadrzi poruku Wrong password
+    //•	Verifikovati da se u url-u stranice javlja /login ruta
+    @Test
+    public void displayErrorsWhenPasswordIsWrongTest(){
+        homePage.openLoginPage();                                                //pomocu metode openLoginPage() otvaram Login Page
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));       //dodajem waiter
+        String passwordRnd = faker.internet().password();                       //uzimam password iz fakera
+        String email="admin@admin.com";                                         //definisem i dajem vrednost email
+        loginPage.login(email,passwordRnd);                                     //prosledjujem metodi login vrednosti email i password iz fakera
+
+        WebElement wrongPasswordField= driver.findElement                       //preko xpatha pronalazim polje sa porukom
+                (By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div"));
+
+        Assert.assertTrue(wrongPasswordField.isDisplayed());                    //provera da li je polje sa porukom vidljivo
+
+        String expectedMessage= "Wrong password";                                //unosim ocekivani tekst poruke
+        WebElement wrongPasswordMesage= driver.findElement                       //pronalazim polje u kom je ispisana poruka
+                (By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li"));
+        String actualMessage= wrongPasswordMesage.getText();                       //uz pomoc getText() metode citam tekst poruke koji se stvarno prikazuje
+        Assert.assertEquals(actualMessage,expectedMessage);                         ////Verifikacija da li greska sadrzi poruku Wrong password
+
+        String actualUrl= loginPage.getDriver().getCurrentUrl();                    //citam trenutni url
+        String expectedPartUrl="/login";                                            //deo ocekivanog URL
+        Assert.assertTrue(actualUrl.contains(expectedPartUrl));                     //Verifikacija da li se u url-u stranice javlja /login ruta
+
+
+
+
+
+
+    }
+
 
 
 }
