@@ -109,5 +109,26 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(actualUrl.contains(expectedPartUrl));                          //Verifikacija da se u url-u stranice javlja /home ruta
     }
 
+    //Test #6: Logout
+    //assert:
+    //•	Verifikovati da je dugme logout vidljivo na stranici
+    //•	Verifikovati da se u url-u stranice javlja /login ruta
+    //•	Verifikovati da se nakon pokušaja otvaranja /home rute, u url-u stranice javlja /login ruta
+
+    @Test (dependsOnMethods={"loginTest"})
+    public void logoutTest() throws InterruptedException {
+
+
+        WebElement logoutBtn= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]"));
+        Assert.assertTrue(logoutBtn.isDisplayed());
+
+        /*Thread.sleep(1000);
+        String actualUrl= driver.getCurrentUrl();                                       //metodom CurrentUrl() citam trenutni url
+        String expectedPartUrl="/login";                                                  //deklarisem i dodeljujem vrednost za ocekivani deo URL /login
+        Assert.assertTrue(actualUrl.contains(expectedPartUrl));*/
+        
+
+
+    }
 
 }
