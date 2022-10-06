@@ -46,10 +46,12 @@ public class AdminCitiesTest extends BaseTest{
         Thread.sleep(2000);
         adminCitiesPage.getCitiesBtn().click();                 //klik na BTN cities iz AdminCities Page
         Thread.sleep(1000);                                 //bez threada nece da radi
-        String cityName= faker.address().cityName();
+        String cityName= "MuMBaj"; //faker.address().cityName();
        adminCitiesPage.createNewCity(cityName);
-
-       //WebElement messageField= driver.findElement(By.);
+       WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
+       String actualMessage= messageField.getText();
+       String expectedMessage="Saved successfully";
+       Assert.assertTrue(actualMessage.contains(expectedMessage));
 
     }
 }

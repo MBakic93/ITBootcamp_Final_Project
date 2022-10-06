@@ -88,7 +88,7 @@ public class SingupTest extends BaseTest{
         Thread.sleep(3000);
         String expectedMessage="IMPORTANT: Verify your account";
         String actualMessage=messageField.getText();
-      //  etWebDriverWait().until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[4]/div/div/div[1]"), "IMPORTANT: Verify your account"));   //PROVERITI KASNIJE 
+      //  etWebDriverWait().until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[4]/div/div/div[1]"), "IMPORTANT: Verify your account"));   //PROVERITI KASNIJE
 
         Thread.sleep(1000);
         Assert.assertTrue(actualMessage.contains(expectedMessage));
