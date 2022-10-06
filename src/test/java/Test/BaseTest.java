@@ -2,6 +2,7 @@ package Test;
 
 import Pages.HomePage;
 import Pages.LoginPage;
+import Pages.SignupPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,6 +22,7 @@ public class BaseTest {
     WebDriverWait webDriverWait;
     LoginPage loginPage;
     HomePage homePage;
+    SignupPage signupPage;
 
 
 
@@ -33,6 +35,7 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         homePage= new HomePage(driver,webDriverWait);
         loginPage= new LoginPage(driver,webDriverWait);
+        signupPage= new SignupPage(driver,webDriverWait);
 
 
     }
