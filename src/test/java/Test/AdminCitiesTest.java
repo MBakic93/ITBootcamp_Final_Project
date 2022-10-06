@@ -29,12 +29,15 @@ public class AdminCitiesTest extends BaseTest{
         Assert.assertTrue(actualUrl.contains(expectedUrlPart));     //Verifikacija da se u url-u stranice javlja /admin/cities ruta
         Assert.assertTrue(homePage.getLogoutBtn().isDisplayed());   //	Verifikacija da li postoji logut dugmeta iz home page-a
 
+
+        //NAPOMENA IYVUCI OVO U METODU KADA BUDES BILA FREE
+
     }
 //Test #2: Create new city
 //Podaci: random grad korisćenjem faker library-ja
 //assert:
 //•	Verifikovati da poruka sadrzi tekst Saved successfully
-    @Test
+    @Test //2
     public void createNewCityTest() throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -46,12 +49,49 @@ public class AdminCitiesTest extends BaseTest{
         Thread.sleep(2000);
         adminCitiesPage.getCitiesBtn().click();                 //klik na BTN cities iz AdminCities Page
         Thread.sleep(1000);                                 //bez threada nece da radi
-        String cityName= "MuMBaj"; //faker.address().cityName();
+        String cityName= "Milica Bakic"; //faker.address().cityName();
        adminCitiesPage.createNewCity(cityName);
        WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
        String actualMessage= messageField.getText();
        String expectedMessage="Saved successfully";
        Assert.assertTrue(actualMessage.contains(expectedMessage));
+
+    }
+
+    //Test #3: Edit city
+    //Podaci: edituje se grad koji je u testu 2 kreiran na isto ime + - edited (primer: Beograd – Beograd edited)
+    //assert:
+    //•	Verifikovati da poruka sadrzi tekst Saved successfully
+
+    @Test //3
+    public void EditCityTest() throws InterruptedException {
+        homePage.openLoginPage();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        String adminEmail= "admin@admin.com";
+        String password="12345";
+        loginPage.login(adminEmail,password);                   //logovanje pomocu metode iz login page
+        Thread.sleep(2000);
+        homePage.getAdminBtn().click();                         //klik na AdminBTN iz home page
+        Thread.sleep(2000);
+        adminCitiesPage.getCitiesBtn().click();                 //klik na BTN cities iz AdminCities Page
+        Thread.sleep(1000);                                 //bez threada nece da radi
+        //WebElement divWithNameCity= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr[1]"));
+
+        WebElement myCityNameEditBtn= driver.findElement(By.id("edit"));
+        myCityNameEditBtn.click();
+        WebElement cityNameEditField= driver.findElement(By.id("name"));
+        cityNameEditField.click();
+        cityNameEditField.sendKeys("Milica Bakic-edited");  //prosledjujem tekst za editovanje
+        WebElement saveBtn= driver.findElement(By.xpath("//*[@id=\"app\"]/div[3]/div/div/div[3]/button[2]/span"));
+        saveBtn.click();
+
+        WebElement messageField= driver.findElement                //pronalazim polje sa porukom
+                (By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
+        String expectedMessage="Saved successfully";
+        String actualMesage= messageField.getText();
+
+        Assert.assertTrue(actualMesage.contains(expectedMessage));
+
 
     }
 }
