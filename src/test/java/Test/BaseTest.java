@@ -36,6 +36,7 @@ public class BaseTest {
         driver= new ChromeDriver();
         this.driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().deleteAllCookies();
         homePage= new HomePage(driver,webDriverWait);
         loginPage= new LoginPage(driver,webDriverWait);
         signupPage= new SignupPage(driver,webDriverWait);

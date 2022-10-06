@@ -3,6 +3,7 @@ package Test;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -19,11 +20,7 @@ public class SingupTest extends BaseTest{
         Assert.assertTrue(actualResult.endsWith("/signup"));
 
     }
-    //Test #2: Checks input types
-    //assert:
-    //•	Verifikovati da polje za unos emaila za atribut type ima vrednost email
-    //•	Verifikovati da polje za unos lozinke za atribut type ima vrednost password
-    //•	Verifikovati da polje za unos lozinke za potvrdu za atribut type ima vrednost password
+
     @Test (priority = 2)
     public void ChecksInputTypes(){
         homePage.openSignUpPage();
@@ -41,16 +38,6 @@ public class SingupTest extends BaseTest{
        Assert.assertTrue(actualResultConfirmPassword.contains(expectedResultConfirmPassword));        //verifikacija da polja za unos plozinke za potvrdu za atribut type ima vrednost password
 
     }
-
-    //Test #3: Displays errors when user already exists
-    //Podaci:
-    //•	name: Test Test
-    //•	email: admin@admin.com
-    //•	password: 123654
-    //•	confirm password: 123654
-    //assert:
-    //•	Verifikovati da greska sadrzi poruku E-mail already exists
-    //•	Verifikovati da se u url-u stranice javlja /signup ruta
 
     @Test (priority = 3)
     public void displaysErrorsWhenUserAlreadyExists(){
@@ -97,11 +84,15 @@ public class SingupTest extends BaseTest{
 
         signupPage.signUp(name,email,password,confirmPassword);
         Thread.sleep(3000);
-        WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[3]/div/div/div[1]"));
-        String expectedMessage="IMPORTANT:Verify your account";
+        WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[4]/div/div/div[1]"));
+        Thread.sleep(3000);
+        String expectedMessage="IMPORTANT: Verify your account";
         String actualMessage=messageField.getText();
-        Thread.sleep(2000);
-        Assert.assertTrue(actualMessage.contains(expectedMessage));      //??????????????????????????????????
+      //  etWebDriverWait().until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[4]/div/div/div[1]"), "IMPORTANT: Verify your account"));   //PROVERITI KASNIJE 
+
+        Thread.sleep(1000);
+        Assert.assertTrue(actualMessage.contains(expectedMessage));
+
 
     }
 
