@@ -1,5 +1,6 @@
 package Test;
 
+import Pages.AdminCitiesPage;
 import Pages.HomePage;
 import Pages.LoginPage;
 import Pages.SignupPage;
@@ -23,6 +24,8 @@ public class BaseTest {
     LoginPage loginPage;
     HomePage homePage;
     SignupPage signupPage;
+    AdminCitiesPage adminCitiesPage;
+
 
 
 
@@ -36,6 +39,8 @@ public class BaseTest {
         homePage= new HomePage(driver,webDriverWait);
         loginPage= new LoginPage(driver,webDriverWait);
         signupPage= new SignupPage(driver,webDriverWait);
+        adminCitiesPage= new AdminCitiesPage(driver,webDriverWait);
+
 
 
     }

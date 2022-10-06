@@ -1,5 +1,6 @@
 package Test;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -8,7 +9,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class SingupTest extends BaseTest{
-
+    Faker faker=new Faker();
     @Test (priority = 1)
     public void VisitsTheSignupPageTest(){
         homePage.openSignUpPage();
@@ -51,7 +52,7 @@ public class SingupTest extends BaseTest{
     //•	Verifikovati da greska sadrzi poruku E-mail already exists
     //•	Verifikovati da se u url-u stranice javlja /signup ruta
 
-    @Test
+    @Test (priority = 3)
     public void displaysErrorsWhenUserAlreadyExists(){
         homePage.openSignUpPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
@@ -72,10 +73,42 @@ public class SingupTest extends BaseTest{
         String actualMessage= emailAlreadyExistMessage.getText();                       //getText() preuzimam sadrzaj poruke
         Assert.assertTrue(actualMessage.contains(expectedMessage));                     //provera da li stvarna poruka sadrzi E-mail already exists
 
-        String actualUrl= driver.getCurrentUrl();
+        String actualUrl= driver.getCurrentUrl();                                      //getCurrentUrl() preuzimam trenutni URL
         String expectedUrlPart= "/signup";
-        Assert.assertTrue(actualUrl.endsWith("/signup"));
+        Assert.assertTrue(actualUrl.endsWith("/signup"));                               //Verifikacija da se u url-u stranice javlja /signup ruta
 
     }
+    //Test #4: Signup
+    //Podaci:
+    //•	name: Ime i prezime polaznika
+    //•	email template: ime.prezime@itbootcamp.rs
+    //•	password: 12346
+    //•	confirm password: 123456
+    //assert:
+    //•	Verifikovati da dijalog za obavestenje sadrzi tekst IMPORTANT: Verify your account
+    @Test (priority = 4)
+    public void SignupTest() throws InterruptedException {
+        homePage.openSignUpPage();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        String name= "Milica Bakic";
+        String email= faker.internet().emailAddress();
+        String password= "12346";
+        String confirmPassword= "12346";
+
+        signupPage.signUp(name,email,password,confirmPassword);
+        Thread.sleep(3000);
+        WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[3]/div/div/div[1]"));
+        String expectedMessage="IMPORTANT:Verify your account";
+        String actualMessage=messageField.getText();
+        Thread.sleep(2000);
+        Assert.assertTrue(actualMessage.contains(expectedMessage));      //??????????????????????????????????
+
+    }
+
+
+
+
+
+
 
 }

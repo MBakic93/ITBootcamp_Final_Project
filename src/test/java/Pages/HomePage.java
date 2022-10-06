@@ -8,7 +8,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class HomePage extends BasePage{
 
     private By goToLoginPageBTN= By.xpath("//*[@id=\"app\"]/div/div/header/div/div[3]/a[3]\n");
+
     private By signUpBTN= By.xpath("//*[@id=\"app\"]/div/div/header/div/div[3]/a[4]");
+    private By adminBtn = By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[1]/span");
+    private By logoutBtn= By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]");
+
+
+
 
     public HomePage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -20,6 +26,13 @@ public class HomePage extends BasePage{
 
     public WebElement getSignUpBTN() {
         return getDriver().findElement(signUpBTN);
+    }
+    public WebElement getAdminBtn() {
+        return getDriver().findElement(adminBtn);
+    }
+
+    public WebElement getLogoutBtn() {
+        return getDriver().findElement(logoutBtn);
     }
 
     public void openLoginPage(){                                     //metoda za odlazak na login page
