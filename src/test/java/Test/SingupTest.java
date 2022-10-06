@@ -72,6 +72,9 @@ public class SingupTest extends BaseTest{
         String actualMessage= emailAlreadyExistMessage.getText();                       //getText() preuzimam sadrzaj poruke
         Assert.assertTrue(actualMessage.contains(expectedMessage));                     //provera da li stvarna poruka sadrzi E-mail already exists
 
+        String actualUrl= driver.getCurrentUrl();
+        String expectedUrlPart= "/signup";
+        Assert.assertTrue(actualUrl.endsWith("/signup"));
 
     }
 
