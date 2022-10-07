@@ -22,11 +22,7 @@ public class LocaleTests extends BaseTest{
 
     }
 
-    //Test #2: Set locale to EN
-    //assert:
-    //Postaviti jezik na EN
-    //Verifikovati da se na stranici u hederu javlja tekst Landing
-    @Test
+    @Test //2
     public void setLocaleToEnglishTest(){
         homePage.getLanguageSetBtn().click();
         homePage.getEnglishBtn().click();
@@ -39,5 +35,24 @@ public class LocaleTests extends BaseTest{
         Assert.assertTrue(actualResult.contains(expectedResult));  //Verifikacija da se na stranici u hederu javlja tekst Landing
 
     }
+//Test #3: Set locale to FR
+//assert:
+//•	Postaviti jezik na FR
+//•	Verifikovati da se na stranici u hederu javlja tekst Page d'atterrissage
+    @Test  //3
+    public void setLocaleToFrenchTest(){
+        homePage.getLanguageSetBtn().click();
+        homePage.getFrenchBtn().click();
+        WebElement hederElement= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));
+
+        String expectedResult="Page d'atterrissage";
+        String actualResult= hederElement.getText();
+
+        Assert.assertTrue(homePage.getFrenchBtn().getText().equals("FR"));
+        Assert.assertTrue(actualResult.contains(expectedResult));  //Verifikacija da se na stranici u hederu javlja tekst Landing
+
+
+    }
+
 
 }
