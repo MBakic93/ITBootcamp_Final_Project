@@ -1,11 +1,13 @@
 package Pages;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AdminCitiesPage extends BasePage{
+
 
 
     private By citiesBtn = By.xpath("//*[@id=\"app\"]/div[3]/div[1]/a[1]");
@@ -40,10 +42,22 @@ public class AdminCitiesPage extends BasePage{
     }
 
     public void createNewCity(String cityName){
+        Faker faker= new Faker();
+        String nameOfCity=faker.address().cityName();
         getNewItemBtn().click();
         getNameCityField().click();
         getNameCityField().sendKeys(cityName);
         getSaveBtn().click();
 
     }
+
+    /*public void addNewCity() throws InterruptedException {
+        faker = new Faker();
+        String city = faker.address().city();
+        getCreateItemBtn().click();
+        getCreatNameInputField().click();
+        getCreatNameInputField().sendKeys(city);
+        Thread.sleep(1000);
+        getSaveNewItemBtn().click();
+    }*/
 }
