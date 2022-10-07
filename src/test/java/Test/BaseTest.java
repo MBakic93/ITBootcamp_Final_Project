@@ -1,9 +1,6 @@
 package Test;
 
-import Pages.AdminCitiesPage;
-import Pages.HomePage;
-import Pages.LoginPage;
-import Pages.SignupPage;
+import Pages.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,6 +22,7 @@ public class BaseTest {
     HomePage homePage;
     SignupPage signupPage;
     AdminCitiesPage adminCitiesPage;
+    MyProfilePage myProfilePage;
 
 
 
@@ -41,6 +39,7 @@ public class BaseTest {
         loginPage= new LoginPage(driver,webDriverWait);
         signupPage= new SignupPage(driver,webDriverWait);
         adminCitiesPage= new AdminCitiesPage(driver,webDriverWait);
+        myProfilePage= new MyProfilePage(driver,webDriverWait);
 
 
 

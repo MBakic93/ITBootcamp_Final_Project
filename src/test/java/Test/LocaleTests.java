@@ -35,10 +35,7 @@ public class LocaleTests extends BaseTest{
         Assert.assertTrue(actualResult.contains(expectedResult));  //Verifikacija da se na stranici u hederu javlja tekst Landing
 
     }
-//Test #3: Set locale to FR
-//assert:
-//•	Postaviti jezik na FR
-//•	Verifikovati da se na stranici u hederu javlja tekst Page d'atterrissage
+
     @Test  //3
     public void setLocaleToFrenchTest(){
         homePage.getLanguageSetBtn().click();

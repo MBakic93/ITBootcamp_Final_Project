@@ -13,6 +13,7 @@ public class HomePage extends BasePage{
     private By adminBtn = By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[1]/span");
     private By logoutBtn= By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]");
     private  By languageSetBtn= By.xpath("//*[@id=\"app\"]/div/div/header/div/div[3]/button");
+    private  By myProfileBtn= By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/a[3]");
 
    /* private By hederElement= By.xpath("//*[@id=\\\"app\\\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1");
             //WebElement hederElement= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));*/
@@ -57,7 +58,11 @@ public class HomePage extends BasePage{
         return getDriver().findElement(espaniolBtn);
     }
 
-/*    public WebElement getHederElement() {
+    public WebElement getMyProfileBtn() {
+        return getDriver().findElement(myProfileBtn);
+    }
+
+    /*    public WebElement getHederElement() {
         return getDriver().findElement(hederElement);
     }*/
 
