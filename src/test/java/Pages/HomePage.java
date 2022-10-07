@@ -14,8 +14,12 @@ public class HomePage extends BasePage{
     private By logoutBtn= By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]");
     private  By languageSetBtn= By.xpath("//*[@id=\"app\"]/div/div/header/div/div[3]/button");
 
-    private By esBtn=By.id("list-item-75");
+   /* private By hederElement= By.xpath("//*[@id=\\\"app\\\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1");
+            //WebElement hederElement= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));*/
 
+    private By espaniolBtn =By.id("list-item-75");
+    private By englishBtn= By.id("list-item-73");
+    private By frenchBtn =By.id("list-item-77");
 
 
 
@@ -41,9 +45,21 @@ public class HomePage extends BasePage{
         return getDriver().findElement(languageSetBtn);
     }
 
-    public WebElement getEsBtn() {
-        return getDriver().findElement(esBtn);
+    public WebElement getEnglishBtn() {
+        return getDriver().findElement(englishBtn);
     }
+
+    public WebElement getFrenchBtn() {
+        return getDriver().findElement(frenchBtn);
+    }
+
+    public WebElement getEspaniolBtn() {
+        return getDriver().findElement(espaniolBtn);
+    }
+
+/*    public WebElement getHederElement() {
+        return getDriver().findElement(hederElement);
+    }*/
 
     public void openLoginPage(){                                     //metoda za odlazak na login page
         getGoToLoginPageBTN().click();                              //otvaram loginPage
