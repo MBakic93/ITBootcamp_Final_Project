@@ -15,8 +15,8 @@ public class HomePage extends BasePage{
     private  By languageSetBtn= By.xpath("//*[@id=\"app\"]/div/div/header/div/div[3]/button");
     private  By myProfileBtn= By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/a[3]");
 
-   /* private By hederElement= By.xpath("//*[@id=\\\"app\\\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1");
-            //WebElement hederElement= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));*/
+
+
 
     private By espaniolBtn =By.id("list-item-75");
     private By englishBtn= By.id("list-item-73");
@@ -62,16 +62,16 @@ public class HomePage extends BasePage{
         return getDriver().findElement(myProfileBtn);
     }
 
-    /*    public WebElement getHederElement() {
-        return getDriver().findElement(hederElement);
-    }*/
-
     public void openLoginPage(){                                     //metoda za odlazak na login page
         getGoToLoginPageBTN().click();                              //otvaram loginPage
     }
 
     public void openSignUpPage(){                                   //metoda za odlazak na signUp page
         getSignUpBTN().click();                                     //otvaram signUp
+    }
+
+    public void logout(){
+        getLogoutBtn().click();
     }
 
 

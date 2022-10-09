@@ -36,6 +36,7 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(actualResultPassword,expectedResultPassword);
 
 
+
     }
 
     @Test (priority= 3)
@@ -107,16 +108,21 @@ public class LoginTest extends BaseTest {
         String expectedPartUrl="/home";                                                  //deklarisem i dodeljujem vrednost za ocekivani deo URL /home
 
         Assert.assertTrue(actualUrl.contains(expectedPartUrl));                          //Verifikacija da se u url-u stranice javlja /home ruta
+        homePage.logout();
     }
-
+@Test
     public void logoutTest() throws InterruptedException {
 
+        homePage.openLoginPage();                                                      //pomocu metode openLoginPage() otvaram Login Page
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));             //dodajem waiter
+        String email= "admin@admin.com";                                               //deklarisem i dodeljujem vrednost za email
+        String password= "12345";                                                      ///deklarisem i dodeljujem vrednost za password
+        loginPage.login(email,password);                                                //prosledjujem metodi login vrednosti email i password
 
-        WebElement logoutBtn= driver.findElement                                       //pronalazim logout button
-                (By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]"));
-        Assert.assertTrue(logoutBtn.isDisplayed());                                    //Verifikacija da li je dugme logout vidljivo na stranici
 
-        logoutBtn.click();                                                             //klik na logout button
+        Assert.assertTrue(homePage.getLogoutBtn().isDisplayed());                     //Verifikacija da li je dugme logout vidljivo na stranici
+
+        homePage.logout();                                                            //klik na logout button
         Thread.sleep(1000);
 
 
