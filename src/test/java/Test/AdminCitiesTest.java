@@ -99,4 +99,25 @@ public class AdminCitiesTest extends BaseTest{
         Assert.assertTrue(actualMesage.contains(expectedMessage));
 
     }
+    @Test
+    public void searchCityTest () throws InterruptedException {
+        homePage.openLoginPage();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        String adminEmail= "admin@admin.com";
+        String password="12345";
+        loginPage.login(adminEmail,password);                                                       //logovanje pomocu metode iz login page
+        Thread.sleep(1000);
+        homePage.getAdminBtn().click();                                                               //klik na AdminBTN iz home page
+        Thread.sleep(1000);
+        adminCitiesPage.getCitiesBtn().click();                                                       //klik na BTN cities iz AdminCities Page
+        Thread.sleep(1000);                                                                     //bez threada nece da radi
+
+       adminCitiesPage.searchCity();
+       Thread.sleep(2000);
+       String expectedResult="Mumbaj";
+       String actualResult= adminCitiesPage.getNameCity().getText();
+        Assert.assertTrue(actualResult.contains(expectedResult) );
+
+
+    }
 }
