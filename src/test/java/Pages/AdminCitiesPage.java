@@ -98,6 +98,7 @@ public class AdminCitiesPage extends BasePage {
         getDeleteFirstCity().click();
         Thread.sleep(1000);
        getDeleteBtn().click();
+
     }
 
 

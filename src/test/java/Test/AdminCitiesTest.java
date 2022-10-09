@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -131,7 +132,7 @@ public class AdminCitiesTest extends BaseTest{
         adminCitiesPage.getCitiesBtn().click();                                                       //klik na BTN cities iz AdminCities Page
         Thread.sleep(1000);                                                                     //bez threada nece da radi
         adminCitiesPage.deleteCity();
-        Thread.sleep(2000);
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]")));
 
         String expectedResult="Deleted successfully";
         String actualResult=adminCitiesPage.getDeleteCityMessage().getText();

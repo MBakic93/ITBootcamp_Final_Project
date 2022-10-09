@@ -65,12 +65,11 @@ public class MyProfilePage extends BasePage {
         //city.click();
         getCountry().sendKeys(Keys.CONTROL + "a" + Keys.DELETE);
         getCountry().sendKeys(country);
-        //Thread.sleep(2000);
+
         getTwitterAddress().sendKeys(Keys.CONTROL + "a" + Keys.DELETE);
 
         getTwitterAddress().clear();
         getTwitterAddress().sendKeys(twitterAddress);
-       // Thread.sleep(2500);
         getSaveBtn().click();
         getGitHubField().sendKeys(Keys.CONTROL + "a" + Keys.DELETE);
 

@@ -32,15 +32,26 @@ public class ProfileTests extends BaseTest{
 
         String twitter="http://"+faker.internet().domainName();
 
-        String gutHub= "https://" + faker.internet().domainName();
+        String gitHub= "https://" + faker.internet().url();
 
-        myProfilePage.editProfile(name,phone,country,twitter,gutHub);
+        myProfilePage.editProfile(name,phone,country,twitter,gitHub);
+
 
         WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]"));
         String expectedMesage= "Profile saved successfuly";
         Assert.assertTrue(messageField.getText().contains(expectedMesage));
 
-
+        String actualName = myProfilePage.getNameField().getAttribute("value");
+        String actualPhone = myProfilePage.getPhoneField().getAttribute("value");
+        String actualCountry=myProfilePage.getCountry().getAttribute("value");
+        String actualTwitter = myProfilePage.getTwitterAddress().getAttribute("value");
+        String actualGitHub = myProfilePage.getGitHubField().getAttribute("value");
+        Thread.sleep(2000);
+        Assert.assertEquals(actualName, name);
+        Assert.assertEquals(actualPhone, phone);
+        Assert.assertEquals(actualTwitter, twitter);
+        Assert.assertTrue(actualGitHub.contains(gitHub));
+        Thread.sleep(2000);
 
 
 

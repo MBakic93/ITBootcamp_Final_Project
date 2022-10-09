@@ -32,6 +32,7 @@ public class BaseTest {
     public void setup(){
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\x\\Desktop\\Chrome\\chromedriver.exe");//"C:\\Users\\Dusanic\\Desktop\\selenium\\chromedriver.exe");
         driver= new ChromeDriver();
+
         this.driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.manage().deleteAllCookies();
