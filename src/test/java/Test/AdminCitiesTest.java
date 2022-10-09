@@ -30,6 +30,8 @@ public class AdminCitiesTest extends BaseTest{
 
         Assert.assertTrue(actualUrl.contains(expectedUrlPart));     //Verifikacija da se u url-u stranice javlja /admin/cities ruta
         Assert.assertTrue(homePage.getLogoutBtn().isDisplayed());   //	Verifikacija da li postoji logut dugmeta iz home page-a
+        homePage.logout();
+
 
 
         //NAPOMENA IYVUCI OVO U METODU KADA BUDES BILA FREE
@@ -57,6 +59,8 @@ public class AdminCitiesTest extends BaseTest{
        String actualMessage= messageField.getText();
        String expectedMessage="Saved successfully";
        Assert.assertTrue(actualMessage.contains(expectedMessage));
+        homePage.logout();
+
 
     }
 
@@ -98,6 +102,8 @@ public class AdminCitiesTest extends BaseTest{
         String actualMesage= messageField.getText();
 
         Assert.assertTrue(actualMesage.contains(expectedMessage));
+        homePage.logout();
+
 
     }
     @Test (priority = 4)
@@ -118,6 +124,8 @@ public class AdminCitiesTest extends BaseTest{
        String expectedResult="Mumbaj";
        String actualResult= adminCitiesPage.getNameCity().getText();
         Assert.assertTrue(actualResult.contains(expectedResult) );
+        homePage.logout();
+
 
     }
 
@@ -137,5 +145,6 @@ public class AdminCitiesTest extends BaseTest{
         String expectedResult="Deleted successfully";
         String actualResult=adminCitiesPage.getDeleteCityMessage().getText();
         Assert.assertTrue(actualResult.contains(expectedResult));
+        homePage.logout();
     }
 }

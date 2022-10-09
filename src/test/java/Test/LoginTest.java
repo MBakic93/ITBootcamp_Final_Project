@@ -110,7 +110,7 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(actualUrl.contains(expectedPartUrl));                          //Verifikacija da se u url-u stranice javlja /home ruta
         homePage.logout();
     }
-@Test
+    @Test
     public void logoutTest() throws InterruptedException {
 
         homePage.openLoginPage();                                                      //pomocu metode openLoginPage() otvaram Login Page
