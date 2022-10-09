@@ -38,7 +38,7 @@ public class AdminCitiesTest extends BaseTest{
 //Podaci: random grad korisćenjem faker library-ja
 //assert:
 //•	Verifikovati da poruka sadrzi tekst Saved successfully
-    @Test //2
+    @Test (priority=2)
     public void createNewCityTest() throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -64,7 +64,7 @@ public class AdminCitiesTest extends BaseTest{
     //assert:
     //•	Verifikovati da poruka sadrzi tekst Saved successfully
 
-    @Test //3
+    @Test (priority = 3)
     public void EditCityTest() throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -99,7 +99,7 @@ public class AdminCitiesTest extends BaseTest{
         Assert.assertTrue(actualMesage.contains(expectedMessage));
 
     }
-    @Test
+    @Test (priority = 4)
     public void searchCityTest () throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -118,6 +118,23 @@ public class AdminCitiesTest extends BaseTest{
        String actualResult= adminCitiesPage.getNameCity().getText();
         Assert.assertTrue(actualResult.contains(expectedResult) );
 
+    }
 
+    @Test(priority = 5)
+    public void deleteCity() throws InterruptedException {
+        homePage.openLoginPage();
+        Thread.sleep(2000);
+        loginPage.login("admin@admin.com", "12345");
+        Thread.sleep(2000);
+        homePage.getAdminBtn().click();                                                               //klik na AdminBTN iz home page
+        Thread.sleep(1000);
+        adminCitiesPage.getCitiesBtn().click();                                                       //klik na BTN cities iz AdminCities Page
+        Thread.sleep(1000);                                                                     //bez threada nece da radi
+        adminCitiesPage.deleteCity();
+        Thread.sleep(2000);
+
+        String expectedResult="Deleted successfully";
+        String actualResult=adminCitiesPage.getDeleteCityMessage().getText();
+        Assert.assertTrue(actualResult.contains(expectedResult));
     }
 }
