@@ -21,14 +21,20 @@ public class AdminCitiesPage extends BasePage {
 
     private By firstCityInTable = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]");
     private By deleteFirstCity = By.xpath("//*[@id=\"delete\"]/span/i");
-    private By deleteBtn = By.xpath("//*[@id=\"app\"]/div[5]/div/div/div[2]/button[2]");
+    private By deleteBtn = By.xpath("\"//*[@id=\\\"delete\\\"]/span/i\"");
+    //"//*[@id=\"app\"]/div[5]/div/div/div[2]/button[2]");
 
-    private By deleteCityMessage= By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]");
+    private By deleteCityMessage = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]");
 
+    private By saveMessageField = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]");
 
 
     public AdminCitiesPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
+    }
+
+    public WebElement getSaveMessageField() {
+        return getDriver().findElement(saveMessageField);
     }
 
     public WebElement getCitiesBtn() {
@@ -67,8 +73,18 @@ public class AdminCitiesPage extends BasePage {
     public WebElement getDeleteFirstCity() {
         return getDriver().findElement(deleteFirstCity);
     }
+
+    //public WebElement getDeleteBtn() {
+      //  return getDriver().findElement(deleteBtn);
+    //}
+
+    public WebElement getDelete1st() {
+        return getDriver().findElement(By.xpath("//*[@id=\"delete\"]/span/i"));
+    }
     public WebElement getDeleteBtn() {
-        return getDriver().findElement(deleteBtn);}
+        return getDriver().findElement(By.xpath("//*[@id=\"app\"]/div[4]/div/div/div[2]/button[2]"));
+    }
+
 
     public WebElement getDeleteCityMessage() {
         return getDriver().findElement(deleteCityMessage);
@@ -96,10 +112,17 @@ public class AdminCitiesPage extends BasePage {
 
     public void deleteCity() throws InterruptedException {
         getDeleteFirstCity().click();
-        Thread.sleep(1000);
-       getDeleteBtn().click();
+        //Thread.sleep(1000);
+        getWebWait().until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"),"Deleted successfully\nCLOSE"));//until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"),"Deleted successfully\nCLOSE"));
+        getDeleteBtn().click();
 
     }
+   /* public void deleteCity() throws InterruptedException {
+        getDelete1st().click();
+        Thread.sleep(1000);
+        webDriverWait.until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"),"Deleted successfully\nCLOSE"));
+        getDeleteBtn().click();
+    }*/
 
 
 }

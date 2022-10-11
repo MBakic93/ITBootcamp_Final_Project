@@ -12,14 +12,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-public  class BasePage {
+public class BasePage {
     private WebDriver driver;
-    private WebDriverWait wait;
+    private WebDriverWait webWait;
 
-    String baseURL="https://vue-demo.daniel-avellaneda.com";
+    //String baseURL = "https://vue-demo.daniel-avellaneda.com";
+
     public BasePage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
-        this.wait = wait;
+        this.webWait = wait;
     }
 
     public WebDriver getDriver() {
@@ -30,12 +31,12 @@ public  class BasePage {
         this.driver = driver;
     }
 
-    public void setWait(WebDriverWait wait) {
-        this.wait = wait;
+    public void setWebWait(WebDriverWait webWait) {
+        this.webWait = webWait;
     }
 
-    public WebDriverWait getWait() {
-        return wait;
+    public WebDriverWait getWebWait() {
+        return webWait;
     }
 
 }

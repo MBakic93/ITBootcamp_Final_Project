@@ -9,97 +9,90 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class SingupTest extends BaseTest{
-    Faker faker=new Faker();
-    @Test (priority = 1)
-    public void VisitsTheSignupPageTest(){
+public class SingupTest extends BaseTest {
+    Faker faker = new Faker();
+
+    @Test
+    public void VisitsTheSignupPageTest() {
         homePage.openSignUpPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        String expectedUrlPart= "/signup";
-        String actualResult= signupPage.getDriver().getCurrentUrl();                   //dohvati trenutni URL
+        String actualResult = signupPage.getDriver().getCurrentUrl();
+
+        //Verify that the /signup route appears in the url of the page
         Assert.assertTrue(actualResult.endsWith("/signup"));
 
+
     }
 
-    @Test (priority = 2)
-    public void ChecksInputTypes(){
+    @Test
+    public void ChecksInputTypes() {
         homePage.openSignUpPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        String expectedResultEmail= "email";
-        String actualResultEmail=signupPage.getEmailField().getAttribute("type");
-        Assert.assertEquals(actualResultEmail,expectedResultEmail);                                  //verifikacija da polja za unos emaila za atribut type ima vrednost password
+        String expectedResultEmail = "email";
+        String actualResultEmail = signupPage.getEmailField().getAttribute("type");
 
-        String expectedResultPassword="password";
-        String actualResultPassword=signupPage.getPasswordField().getAttribute("type");
-        Assert.assertEquals(actualResultPassword,expectedResultPassword);                           //verifikacija da polja za unos passworda za atribut type ima vrednost password
+        //verify that the email input field for the attribute type has the value email
+        Assert.assertEquals(actualResultEmail, expectedResultEmail);
 
-        String expectedResultConfirmPassword="password";
-        String actualResultConfirmPassword=signupPage.getConfirmPasswordField().getAttribute("type");
-       Assert.assertTrue(actualResultConfirmPassword.contains(expectedResultConfirmPassword));        //verifikacija da polja za unos plozinke za potvrdu za atribut type ima vrednost password
+        String expectedResultPassword = "password";
+        String actualResultPassword = signupPage.getPasswordField().getAttribute("type");
+
+        //Verify that the password input field for the type attribute has the value password
+        Assert.assertEquals(actualResultPassword, expectedResultPassword);
+
+        String expectedResultConfirmPassword = "password";
+        String actualResultConfirmPassword = signupPage.getConfirmPasswordField().getAttribute("type");
+
+        //Verify that the confirmation password input field for the type attribute has the value password
+        Assert.assertTrue(actualResultConfirmPassword.contains(expectedResultConfirmPassword));
+
 
     }
 
-    @Test (priority = 3)
-    public void displaysErrorsWhenUserAlreadyExists(){
+    @Test
+    public void displaysErrorsWhenUserAlreadyExists() {
         homePage.openSignUpPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        String name="Test Test";
-        String email="admin@admin.com";
-        String password= "123654";
-        String confirmPassword="123654";
-        signupPage.signUp(name,email,password,confirmPassword);             //metodi prosledjuem name,email, password i confirm pasword, i pokusavam signup
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        String name = "Test Test";
+        String email = "admin@admin.com";
+        String password = "123654";
+        String confirmPassword = "123654";
+        signupPage.signUp(name, email, password, confirmPassword);
 
+        //Verify that the message field exists
+        Assert.assertTrue(signupPage.getMesageField().isDisplayed());
 
-        WebElement mesageField= driver.findElement(By.xpath(
-                "//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[3]/div/div/div/div"));
-        Assert.assertTrue(mesageField.isDisplayed());                                      //provera da li polje sa porukom postoji
+        String expectedMessage = "E-mail already exists";
+        String actualMessage = signupPage.getEmailAlreadyExistMessage().getText();
 
-        WebElement emailAlreadyExistMessage= driver.findElement(                        //pronalazim poruku
-                By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[3]/div/div/div/div/div[1]/ul/li"));
-        String expectedMessage="E-mail already exists";
-        String actualMessage= emailAlreadyExistMessage.getText();                       //getText() preuzimam sadrzaj poruke
-        Assert.assertTrue(actualMessage.contains(expectedMessage));                     //provera da li stvarna poruka sadrzi E-mail already exists
+        //Verify that the error contains the message E-mail already exists
+        Assert.assertTrue(actualMessage.contains(expectedMessage));
 
-        String actualUrl= driver.getCurrentUrl();                                      //getCurrentUrl() preuzimam trenutni URL
-        String expectedUrlPart= "/signup";
-        Assert.assertTrue(actualUrl.endsWith("/signup"));                               //Verifikacija da se u url-u stranice javlja /signup ruta
+        //Verify that the /signup route appears in the url of the page
+        Assert.assertTrue(driver.getCurrentUrl().endsWith("/signup"));
 
     }
-    //Test #4: Signup
-    //Podaci:
-    //•	name: Ime i prezime polaznika
-    //•	email template: ime.prezime@itbootcamp.rs
-    //•	password: 12346
-    //•	confirm password: 123456
-    //assert:
-    //•	Verifikovati da dijalog za obavestenje sadrzi tekst IMPORTANT: Verify your account
-    @Test (priority = 4)
+
+    @Test
     public void SignupTest() throws InterruptedException {
         homePage.openSignUpPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        String name= "Milica Bakic";
-        String email= faker.internet().emailAddress();
-        String password= "12346";
-        String confirmPassword= "12346";
+        String name = "Milica Bakic";
+        String email = faker.internet().emailAddress();
+        String password = "12346";
+        String confirmPassword = "12346";
 
-        signupPage.signUp(name,email,password,confirmPassword);
-        Thread.sleep(3000);
-        WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[4]/div/div/div[1]"));
-        Thread.sleep(3000);
-        String expectedMessage="IMPORTANT: Verify your account";
-        String actualMessage=messageField.getText();
-      //  etWebDriverWait().until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[4]/div/div/div[1]"), "IMPORTANT: Verify your account"));   //PROVERITI KASNIJE
-
+        signupPage.signUp(name, email, password, confirmPassword);
+        //Without tread sleep, the test fails, I dream it passes successfully, with the need of a waiter, the test fails
+        Thread.sleep(2000);
+        String expectedMessage = "IMPORTANT: Verify your account";
+        String actualMessage = signupPage.getMessageVerifyYourAccountField().getText();
         Thread.sleep(1000);
+
+        //Verify that the notification dialog contains the text IMPORTANT: Verify your account
         Assert.assertTrue(actualMessage.contains(expectedMessage));
 
-
     }
-
-
-
-
-
 
 
 }

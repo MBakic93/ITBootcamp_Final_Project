@@ -10,129 +10,130 @@ import java.time.Duration;
 
 public class LoginTest extends BaseTest {
 
-    private Faker faker= new Faker();
+    private Faker faker = new Faker();
 
-    @Test (priority = 1)
-    public void visitsTheLoginPageTest(){
+    @Test
+    // Verify that the route /login appears in the url of the page
+    public void visitsTheLoginPageTest() {
         homePage.openLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        String expectedResult= "https://vue-demo.daniel-avellaneda.com/login";
-      String actualResult= loginPage.getDriver().getCurrentUrl();                   //dohvati trenutni URL
+        String actualResult = loginPage.getDriver().getCurrentUrl();
         Assert.assertTrue(actualResult.endsWith("/login"));
 
     }
 
-    @Test (priority = 2)
-    public void checksInputTypesTest()  {
+    @Test
+    public void checksInputTypesTest() {
 
         homePage.openLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        String expectedResultEmail= "email";
-        String actualResultEmail=loginPage.getEmailField().getAttribute("type");
-        Assert.assertEquals(actualResultEmail,expectedResultEmail);   //verifikacija da polja za unos emaila za atribut type ima vrednost password
+        String expectedResultEmail = "email";
+        String actualResultEmail = loginPage.getEmailField().getAttribute("type");
 
-        String expectedResultPassword="password";
-        String actualResultPassword=loginPage.getPasswordField().getAttribute("type"); ////verifikacija da polja za unos passworda za atribut type ima vrednost password
-        Assert.assertEquals(actualResultPassword,expectedResultPassword);
+        //Verify that the email input field for the type attribute has the value email
+        Assert.assertEquals(actualResultEmail, expectedResultEmail);
 
+
+        String expectedResultPassword = "password";
+        String actualResultPassword = loginPage.getPasswordField().getAttribute("type");
+
+        //Verify that the password input field for the type attribute has the value password
+        Assert.assertEquals(actualResultPassword, expectedResultPassword);
 
 
     }
 
-    @Test (priority= 3)
-    public void userDoesNotExistTest(){
+    @Test
+    public void userDoesNotExistTest() {
         homePage.openLoginPage();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        String emailRnd = faker.internet().emailAddress();
+        String passwordRnd = faker.internet().password();
+        loginPage.login(emailRnd, passwordRnd);
 
-        String emailRnd=faker.internet().emailAddress();                           //uzimam email iz fakera
-        String passwordRnd = faker.internet().password();                         //uzimam password iz fakera
-        loginPage.login(emailRnd,passwordRnd);                                   //prosledjujem metodi login vrednosti email i password iz fakera
+        ////verify that the error message box appears
+        Assert.assertTrue(loginPage.getUserDoesNotExistField().isDisplayed());
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));       //dodajem wait-er
 
-        WebElement userDoesNotExistField = driver.findElement(By.xpath(
-                "//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]"));  //pronalazim polje sa porukom
-        Assert.assertTrue(userDoesNotExistField.isDisplayed());                   //proveravam da li se polje sa porukom o gresci pojavljuje
+        String expectedMessage = "User does not exists";
+        String actualMessage = loginPage.getUserDoesNotExistMessageField().getText();
 
-        WebElement  userDoesNotExistMessageField= driver.findElement(By.xpath(
-                "//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li"));  //pronalazim polje sa porukom
+        //Verify that the error contains the message User does not exist
+        Assert.assertEquals(actualMessage, expectedMessage);
 
-        String expectedMessage= "User does not exists";                              //ocekivani tekst poruke
-        String actualMessage= userDoesNotExistMessageField.getText();               //tekst poruke koji se stvarno prikazuje
-        Assert.assertEquals(actualMessage,expectedMessage);                          //Verifikacija da li greska sadrzi poruku User does not exists
 
-        String expectedUrlRoute="https://vue-demo.daniel-avellaneda.com/login";     //ocekivani URL stranice
-        String actualUrlResult= driver.getCurrentUrl();              //pomocu getCurrentUrl() metode citam stvarnu adresu stranice
+        String expectedUrlRoute = "https://vue-demo.daniel-avellaneda.com/login";
+        String actualUrlResult = driver.getCurrentUrl();
 
-        Assert.assertTrue(actualUrlResult.endsWith(expectedUrlRoute));              //pomocu metode endsWith() verifikujem da li se stvarni URL yavrsava sa /login
+        //Verify that the /login route appears in the url of the page
+        Assert.assertTrue(actualUrlResult.endsWith(expectedUrlRoute));
 
 
     }
 
 
-    @Test (priority = 4)
-    public void displayErrorsWhenPasswordIsWrongTest(){
-        homePage.openLoginPage();                                                //pomocu metode openLoginPage() otvaram Login Page
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));       //dodajem waiter
-        String passwordRnd = faker.internet().password();                       //uzimam password iz fakera
-        String email="admin@admin.com";                                         //definisem i dajem vrednost email
-        loginPage.login(email,passwordRnd);                                     //prosledjujem metodi login vrednosti email i password iz fakera
+    @Test
+    public void displayErrorsWhenPasswordIsWrongTest() {
+        homePage.openLoginPage();
+        String passwordRnd = faker.internet().password();
+        String email = "admin@admin.com";
+        loginPage.login(email, passwordRnd);
 
-        WebElement wrongPasswordField= driver.findElement                       //preko xpatha pronalazim polje sa porukom
-                (By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div"));
+        //verify that the error message box appears
+        Assert.assertTrue(loginPage.getWrongPasswordField().isDisplayed());
 
-        Assert.assertTrue(wrongPasswordField.isDisplayed());                    //provera da li je polje sa porukom vidljivo
 
-        String expectedMessage= "Wrong password";                                //unosim ocekivani tekst poruke
-        WebElement wrongPasswordMesage= driver.findElement                       //pronalazim polje u kom je ispisana poruka
-                (By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li"));
-        String actualMessage= wrongPasswordMesage.getText();                       //uz pomoc getText() metode citam tekst poruke koji se stvarno prikazuje
-        Assert.assertEquals(actualMessage,expectedMessage);                         ////Verifikacija da li greska sadrzi poruku Wrong password
+        String expectedMessage = "Wrong password";
+        String actualMessage = loginPage.getWrongPasswordMesage().getText();
 
-        String actualUrl= driver.getCurrentUrl();                                   //citam trenutni url
-        String expectedPartUrl="/login";                                            //deo ocekivanog URL
-        Assert.assertTrue(actualUrl.contains(expectedPartUrl));                     //Verifikacija da li se u url-u stranice javlja /login ruta
+        //Verify that the error contains the message Wrong password
+        Assert.assertEquals(actualMessage, expectedMessage);
+
+
+        String actualUrl = driver.getCurrentUrl();
+        String expectedPartUrl = "/login";
+
+        //Verify that the /login route appears in the url of the page
+        Assert.assertTrue(actualUrl.contains(expectedPartUrl));
 
     }
 
-    @Test (priority = 5)
+    @Test
     public void loginTest() throws InterruptedException {
-        homePage.openLoginPage();                                                      //pomocu metode openLoginPage() otvaram Login Page
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));             //dodajem waiter
-        String email= "admin@admin.com";                                               //deklarisem i dodeljujem vrednost za email
-        String password= "12345";                                                      ///deklarisem i dodeljujem vrednost za password
-        loginPage.login(email,password);                                                //prosledjujem metodi login vrednosti email i password
+        homePage.openLoginPage();
+        loginPage.login("admin@admin.com",  "12345");
 
-        Thread.sleep(1000);                                                       //bez thread sleep-a izbacuje gresku, sa njim uspesno izvrsava test
-        String actualUrl= driver.getCurrentUrl();                                       //metodom CurrentUrl() citam trenutni url
-        String expectedPartUrl="/home";                                                  //deklarisem i dodeljujem vrednost za ocekivani deo URL /home
+        //without thread sleep it throws an error, with it,  executes the test successfully
+        Thread.sleep(1000);
+        String actualUrl = driver.getCurrentUrl();
+        String expectedPartUrl = "/home";
 
-        Assert.assertTrue(actualUrl.contains(expectedPartUrl));                          //Verifikacija da se u url-u stranice javlja /home ruta
+        //Verify that the /home route appears in the url of the page
+        Assert.assertTrue(actualUrl.contains(expectedPartUrl));
         homePage.logout();
     }
+
     @Test
     public void logoutTest() throws InterruptedException {
 
-        homePage.openLoginPage();                                                      //pomocu metode openLoginPage() otvaram Login Page
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));             //dodajem waiter
-        String email= "admin@admin.com";                                               //deklarisem i dodeljujem vrednost za email
-        String password= "12345";                                                      ///deklarisem i dodeljujem vrednost za password
-        loginPage.login(email,password);                                                //prosledjujem metodi login vrednosti email i password
+        homePage.openLoginPage();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        String email = "admin@admin.com";
+        String password = "12345";
+        loginPage.login(email, password);
 
+        //Verify that the logout button is visible on the page
+        Assert.assertTrue(homePage.getLogoutBtn().isDisplayed());
 
-        Assert.assertTrue(homePage.getLogoutBtn().isDisplayed());                     //Verifikacija da li je dugme logout vidljivo na stranici
+        homePage.logout();
+        String actualUrl = driver.getCurrentUrl();
+        String expectedPartUrl = "/login";
 
-        homePage.logout();                                                            //klik na logout button
-        Thread.sleep(1000);
+        //Verify that the /login route appears in the url of the page
+        Assert.assertTrue(actualUrl.contains(expectedPartUrl));
 
-
-        String actualUrl = driver.getCurrentUrl();                                      //metodom CurrentUrl() citam trenutni url
-        String expectedPartUrl="/login";                                                //deklarisem i dodeljujem vrednost za ocekivani deo URL /login
-        Assert.assertTrue(actualUrl.contains(expectedPartUrl));                         //Verifikacija da li se u url-u stranice javlja /login ruta
-
-        driver.get("https://vue-demo.daniel-avellaneda.com/home");                      //pomocu driver.get() otvaram home /home rutu
+        driver.get("https://vue-demo.daniel-avellaneda.com/home");
         Thread.sleep(2000);
-        Assert.assertTrue(driver.getCurrentUrl().contains(expectedPartUrl));            //Verifikacija da li se nakon pokušaja otvaranja /home rute, u url-u stranice javlja /login ruta
+
+        //Verify that after trying to open the /home route, the /login route appears in the url of the page
+        Assert.assertTrue(driver.getCurrentUrl().contains(expectedPartUrl));
 
 
     }

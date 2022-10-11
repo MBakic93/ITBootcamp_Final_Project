@@ -8,9 +8,10 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class ProfileTests extends BaseTest{
-    Faker faker= new Faker();
-//Test #1: Edits profile
+public class ProfileTests extends BaseTest {
+    Faker faker = new Faker();
+
+    //Test #1: Edits profile
 //Podaci: random podaci korišćenjem faker library-ja
 //assert:
 //Verifikovati da je prikazana poruka Profile saved successfuly
@@ -19,31 +20,31 @@ public class ProfileTests extends BaseTest{
     public void editsPtofileTest() throws InterruptedException {
         homePage.openLoginPage();                                                      //pomocu metode openLoginPage() otvaram Login Page
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));             //dodajem waiter
-        String email= "admin@admin.com";                                               //deklarisem i dodeljujem vrednost za email
-        String password= "12345";                                                      ///deklarisem i dodeljujem vrednost za password
-        loginPage.login(email,password);                                                //prosledjujem metodi login vrednosti email i password
+        String email = "admin@admin.com";                                               //deklarisem i dodeljujem vrednost za email
+        String password = "12345";                                                      ///deklarisem i dodeljujem vrednost za password
+        loginPage.login(email, password);                                                //prosledjujem metodi login vrednosti email i password
 
 
         homePage.getMyProfileBtn().click();
-        String name= String.valueOf(faker.name());
-        String city=faker.address().city();
-        String phone= String.valueOf(faker.phoneNumber());
-        String country= faker.address().country();
+        String name = String.valueOf(faker.name());
+        String city = faker.address().city();
+        String phone = String.valueOf(faker.phoneNumber());
+        String country = faker.address().country();
 
-        String twitter="http://"+faker.internet().domainName();
+        String twitter = "http://" + faker.internet().domainName();
 
-        String gitHub= "https://" + faker.internet().url();
+        String gitHub = "https://" + faker.internet().domainName();
 
-        myProfilePage.editProfile(name,phone,country,twitter,gitHub);
+        myProfilePage.editProfile(name, phone, country, twitter, gitHub);
 
 
-        WebElement messageField= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]"));
-        String expectedMesage= "Profile saved successfuly";
+        WebElement messageField = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]"));
+        String expectedMesage = "Profile saved successfuly";
         Assert.assertTrue(messageField.getText().contains(expectedMesage));
 
         String actualName = myProfilePage.getNameField().getAttribute("value");
         String actualPhone = myProfilePage.getPhoneField().getAttribute("value");
-        String actualCountry=myProfilePage.getCountry().getAttribute("value");
+        String actualCountry = myProfilePage.getCountry().getAttribute("value");
         String actualTwitter = myProfilePage.getTwitterAddress().getAttribute("value");
         String actualGitHub = myProfilePage.getGitHubField().getAttribute("value");
         Thread.sleep(2000);
@@ -52,10 +53,6 @@ public class ProfileTests extends BaseTest{
         Assert.assertEquals(actualTwitter, twitter);
         Assert.assertTrue(actualGitHub.contains(gitHub));
         Thread.sleep(2000);
-
-
-
-
 
 
     }

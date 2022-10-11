@@ -11,13 +11,13 @@ import java.time.Duration;
 
 public class MyProfilePage extends BasePage {
 
-    private By nameField= By.id("name");
-    private By phoneField=By.id("phone");
-    private By cityField= By.id("city");
-    private By country= By.id("country");
-    private By twitterAddress= By.id("urlTwitter");
-    private By gitHubField= By.id("urlGitHub");
-    private By saveBtn= By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[2]/span/form/div/div/div[8]/button");
+    private By nameField = By.id("name");
+    private By phoneField = By.id("phone");
+    private By cityField = By.id("city");
+    private By country = By.id("country");
+    private By twitterAddress = By.id("urlTwitter");
+    private By gitHubField = By.id("urlGitHub");
+    private By saveBtn = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[2]/span/form/div/div/div[8]/button");
 
     public MyProfilePage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -53,16 +53,13 @@ public class MyProfilePage extends BasePage {
     }
 
 
-    public void editProfile(String name, String phone, String country, String twitterAddress,String gitHub ) throws InterruptedException {
+    public void editProfile(String name, String phone, String country, String twitterAddress, String gitHub) throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         getNameField().sendKeys(Keys.CONTROL + "a" + Keys.DELETE);
         getNameField().sendKeys(name);
         getPhoneField().sendKeys(Keys.CONTROL + "a" + Keys.DELETE);
         getPhoneField().sendKeys(phone);
-        //getCityField().click();
 
-       // WebElement city= getDriver().findElement(By.xpath("//*[@id=\"list-item-394-15\"]/div/div"));   //CITYYYY!!!!
-        //city.click();
         getCountry().sendKeys(Keys.CONTROL + "a" + Keys.DELETE);
         getCountry().sendKeys(country);
 
