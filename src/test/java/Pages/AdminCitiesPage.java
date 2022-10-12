@@ -112,9 +112,7 @@ public class AdminCitiesPage extends BasePage {
         deleteDialog.click();
         Thread.sleep(1000);
         getDeleteBtn().click();
-
-        //getWebWait().until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"), "Deleted successfully\nCLOSE"));
-
+        
 
     }
 
