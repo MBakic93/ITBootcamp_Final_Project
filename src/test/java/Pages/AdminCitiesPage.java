@@ -112,7 +112,7 @@ public class AdminCitiesPage extends BasePage {
         deleteDialog.click();
         Thread.sleep(1000);
         getDeleteBtn().click();
-        
+
 
     }
 
