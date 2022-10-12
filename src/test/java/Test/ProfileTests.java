@@ -3,6 +3,7 @@ package Test;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,49 +12,50 @@ import java.time.Duration;
 public class ProfileTests extends BaseTest {
     Faker faker = new Faker();
 
-    //Test #1: Edits profile
-//Podaci: random podaci korišćenjem faker library-ja
-//assert:
-//Verifikovati da je prikazana poruka Profile saved successfuly
-//Verifikovati da svaki input sada za value atribut ima vrednost koja je uneta u okviru forme
     @Test
     public void editsPtofileTest() throws InterruptedException {
-        homePage.openLoginPage();                                                      //pomocu metode openLoginPage() otvaram Login Page
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));             //dodajem waiter
-        String email = "admin@admin.com";                                               //deklarisem i dodeljujem vrednost za email
-        String password = "12345";                                                      ///deklarisem i dodeljujem vrednost za password
-        loginPage.login(email, password);                                                //prosledjujem metodi login vrednosti email i password
+        homePage.openLoginPage();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        loginPage.login("admin@admin.com", "12345");
 
 
         homePage.getMyProfileBtn().click();
         String name = String.valueOf(faker.name());
-        String city = faker.address().city();
-        String phone = String.valueOf(faker.phoneNumber());
+        String phone = faker.number().digits(9);
         String country = faker.address().country();
 
-        String twitter = "http://" + faker.internet().domainName();
 
-        String gitHub = "https://" + faker.internet().domainName();
-
+        String twitter = "https://twitter.com/" + faker.name().firstName().toLowerCase();
+        String gitHub = "https://github.com/" + faker.name().firstName().toLowerCase();
         myProfilePage.editProfile(name, phone, country, twitter, gitHub);
+        Thread.sleep(1500);
 
-
-        WebElement messageField = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]"));
         String expectedMesage = "Profile saved successfuly";
-        Assert.assertTrue(messageField.getText().contains(expectedMesage));
+        Assert.assertTrue(myProfilePage.getMessageField().getText().contains(expectedMesage));
+
 
         String actualName = myProfilePage.getNameField().getAttribute("value");
         String actualPhone = myProfilePage.getPhoneField().getAttribute("value");
         String actualCountry = myProfilePage.getCountry().getAttribute("value");
         String actualTwitter = myProfilePage.getTwitterAddress().getAttribute("value");
         String actualGitHub = myProfilePage.getGitHubField().getAttribute("value");
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+
+
+        //Verify that each input for the value attribute has the value entered in the form
+
         Assert.assertEquals(actualName, name);
         Assert.assertEquals(actualPhone, phone);
         Assert.assertEquals(actualTwitter, twitter);
         Assert.assertTrue(actualGitHub.contains(gitHub));
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+        myProfilePage.getSaveBtn().click();
+
+        ////Verify that the Profile saved successfully message is displayed
+        Assert.assertTrue(myProfilePage.getMessageField().getText().contains("Profile saved successfuly"));
 
 
     }
+
+
 }

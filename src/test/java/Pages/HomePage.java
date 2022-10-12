@@ -17,6 +17,7 @@ public class HomePage extends BasePage {
     private By espaniolBtn = By.id("list-item-75");
     private By englishBtn = By.id("list-item-73");
     private By frenchBtn = By.id("list-item-77");
+    private By hederElement= By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1");
 
 
     public HomePage(WebDriver driver, WebDriverWait wait) {
@@ -57,6 +58,10 @@ public class HomePage extends BasePage {
 
     public WebElement getMyProfileBtn() {
         return getDriver().findElement(myProfileBtn);
+    }
+
+    public WebElement getHederElement() {
+        return getDriver().findElement(hederElement);
     }
 
     public void openLoginPage() {                                     //metoda za odlazak na login page

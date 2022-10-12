@@ -1,53 +1,55 @@
 package Test;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LocaleTests extends BaseTest{
 
-    @Test   //1
+    @Test
     public void setLocaleToSpanishTest(){
-        homePage.getLanguageSetBtn().click();     //klik na dugme za promenu jezika
-        homePage.getEspaniolBtn().click();              //Klik na dugme ES u izboru jezika
+        homePage.getLanguageSetBtn().click();
+        homePage.getEspaniolBtn().click();
 
-        WebElement hederElement= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));
         String expectedResult="Página de aterrizaje";
-        String actualResult= hederElement.getText();
+        String actualResult= homePage.getHederElement().getText();
 
-        Assert.assertTrue(homePage.getEspaniolBtn().getText().equals("ES"));  ///Proveri na kraju
+        //Set language to ES
+        Assert.assertTrue(homePage.getEspaniolBtn().getText().equals("ES"));
 
-        Assert.assertTrue(actualResult.contains(expectedResult));  //Verifikacija da se na stranici u hederu javlja tekst Página de aterrizaje
+        //Verify that the text Página de aterrizaje appears in the header of the page
+        Assert.assertTrue(actualResult.contains(expectedResult));
 
     }
 
-    @Test //2
+    @Test
     public void setLocaleToEnglishTest(){
         homePage.getLanguageSetBtn().click();
         homePage.getEnglishBtn().click();
-        WebElement hederElement= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));
 
         String expectedResult="Landing";
-        String actualResult= hederElement.getText();
+        String actualResult= homePage.getHederElement().getText();
 
+        //Set language to EN
         Assert.assertTrue(homePage.getEnglishBtn().getText().equals("EN"));
-        Assert.assertTrue(actualResult.contains(expectedResult));  //Verifikacija da se na stranici u hederu javlja tekst Landing
+
+        //Verify that the text Landing appears in the header of the page
+        Assert.assertTrue(actualResult.contains(expectedResult));
 
     }
 
-    @Test  //3
+    @Test
     public void setLocaleToFrenchTest(){
         homePage.getLanguageSetBtn().click();
         homePage.getFrenchBtn().click();
-        WebElement hederElement= driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[1]/h1"));
 
         String expectedResult="Page d'atterrissage";
-        String actualResult= hederElement.getText();
+        String actualResult= homePage.getHederElement().getText();
 
+        //Set language to FR
         Assert.assertTrue(homePage.getFrenchBtn().getText().equals("FR"));
-        Assert.assertTrue(actualResult.contains(expectedResult));  //Verifikacija da se na stranici u hederu javlja tekst Landing
 
+        //Verify that the text  Page d'atterrissage appears in the header of the page
+        Assert.assertTrue(actualResult.contains(expectedResult));
 
     }
 

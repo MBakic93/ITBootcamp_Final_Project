@@ -11,10 +11,9 @@ public class LoginPage extends BasePage{
     private By emailField= By.id("email");
     private By passwordField = By.id("password");
     private By loginBtn= By.xpath("//*[@id=\"app\"]/div/main/div/div[2]/div/div/div[3]/span/form/div/div[3]/button");
-
     private By userDoesNotExistField = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]");
     private By userDoesNotExistMessageField = By.xpath(
-            "//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li");  //pronalazim polje sa porukom
+            "//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li");
     private By wrongPasswordMesage =By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li");
     private  By wrongPasswordField = By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div");
 
@@ -29,11 +28,11 @@ public class LoginPage extends BasePage{
     }
 
     public WebElement getPasswordField() {
-        return getDriver().findElement(passwordField);                                       //pronalazim password field
+        return getDriver().findElement(passwordField);
     }
 
     public WebElement getLoginBtn() {
-        return getDriver().findElement(loginBtn);                                           //pronalazim dugme za logovanje
+        return getDriver().findElement(loginBtn);
     }
 
     public WebElement getUserDoesNotExistField() {
@@ -52,7 +51,7 @@ public class LoginPage extends BasePage{
         return getDriver().findElement(wrongPasswordField);
     }
 
-    public void login(String email, String password){                                       //unosim podatke u email i password field, klik na loginBtn
+    public void login(String email, String password){
         getEmailField().clear();
         getEmailField().sendKeys(email);
         getPasswordField().clear();

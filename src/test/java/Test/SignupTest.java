@@ -1,15 +1,12 @@
 package Test;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class SingupTest extends BaseTest {
+public class SignupTest extends BaseTest {
     Faker faker = new Faker();
 
     @Test
@@ -20,7 +17,6 @@ public class SingupTest extends BaseTest {
 
         //Verify that the /signup route appears in the url of the page
         Assert.assertTrue(actualResult.endsWith("/signup"));
-
 
     }
 

@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
 
 public class LoginTest extends BaseTest {
@@ -13,10 +12,12 @@ public class LoginTest extends BaseTest {
     private Faker faker = new Faker();
 
     @Test
-    // Verify that the route /login appears in the url of the page
+
     public void visitsTheLoginPageTest() {
         homePage.openLoginPage();
         String actualResult = loginPage.getDriver().getCurrentUrl();
+
+        // Verify that the route /login appears in the url of the page
         Assert.assertTrue(actualResult.endsWith("/login"));
 
     }
@@ -38,7 +39,6 @@ public class LoginTest extends BaseTest {
         //Verify that the password input field for the type attribute has the value password
         Assert.assertEquals(actualResultPassword, expectedResultPassword);
 
-
     }
 
     @Test
@@ -48,7 +48,7 @@ public class LoginTest extends BaseTest {
         String passwordRnd = faker.internet().password();
         loginPage.login(emailRnd, passwordRnd);
 
-        ////verify that the error message box appears
+        //verify that the error message box appears
         Assert.assertTrue(loginPage.getUserDoesNotExistField().isDisplayed());
 
 
@@ -65,9 +65,7 @@ public class LoginTest extends BaseTest {
         //Verify that the /login route appears in the url of the page
         Assert.assertTrue(actualUrlResult.endsWith(expectedUrlRoute));
 
-
     }
-
 
     @Test
     public void displayErrorsWhenPasswordIsWrongTest() {
@@ -130,7 +128,7 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(actualUrl.contains(expectedPartUrl));
 
         driver.get("https://vue-demo.daniel-avellaneda.com/home");
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         //Verify that after trying to open the /home route, the /login route appears in the url of the page
         Assert.assertTrue(driver.getCurrentUrl().contains(expectedPartUrl));

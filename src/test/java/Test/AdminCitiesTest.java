@@ -6,9 +6,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 public class AdminCitiesTest extends BaseTest {
     Faker faker = new Faker();
@@ -17,93 +19,69 @@ public class AdminCitiesTest extends BaseTest {
     public void VisitsTheAdminCitiesAndListCitiesTest() throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        String adminEmail = "admin@admin.com";
-        String password = "12345";
+        loginPage.login("admin@admin.com", "12345");
+        Thread.sleep(1500);
+        homePage.getAdminBtn().click();
+        Thread.sleep(1000);
+        adminCitiesPage.getCitiesBtn().click();
+        String actualUrl = driver.getCurrentUrl();
+        String expectedUrlPart = "/admin/cities";
 
-        loginPage.login(adminEmail, password);                   //logovanje pomocu metode iz login page
-        //Thread.sleep(2000);
-        homePage.getAdminBtn().click();                         //klik na AdminBTN iz home page
-       // Thread.sleep(2000);
-        adminCitiesPage.getCitiesBtn().click();                 //klik na BTN cities iz AdminCities Page
-        //Thread.sleep(1000);                                 //bez threada nece da radi
-        String actualUrl = driver.getCurrentUrl();               //citam trenutni url
-        String expectedUrlPart = "/admin/cities";                //ocekivani deo url-a
+        ////Verify that the /admin/cities route appears in the url of the page
+        Assert.assertTrue(actualUrl.contains(expectedUrlPart));
 
-        Assert.assertTrue(actualUrl.contains(expectedUrlPart));     //Verifikacija da se u url-u stranice javlja /admin/cities ruta
-        Assert.assertTrue(homePage.getLogoutBtn().isDisplayed());   //	Verifikacija da li postoji logut dugmeta iz home page-a
-        homePage.logout();
-
-
-        //NAPOMENA IZVUCI OVO U METODU KADA BUDES BILA FREE
+        // Verify if there is a login button from the home page
+        Assert.assertTrue(homePage.getLogoutBtn().isDisplayed());
 
     }
 
-    //Test #2: Create new city
-    //Podaci: random grad korisćenjem faker library-ja
-    //assert:
-    //•	Verifikovati da poruka sadrzi tekst Saved successfully
     @Test
     public void createNewCityTest() throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        String adminEmail = "admin@admin.com";
-        String password = "12345";
-        loginPage.login(adminEmail, password);                   //logovanje pomocu metode iz login page
-      //  Thread.sleep(2000);
-        homePage.getAdminBtn().click();                         //klik na AdminBTN iz home page
-        //Thread.sleep(2000);
-        adminCitiesPage.getCitiesBtn().click();                 //klik na BTN cities iz AdminCities Page
-        //Thread.sleep(1000);                                 //bez threada nece da radi
-        String cityName = "Mumbaj"; //faker.address().cityName();
+        loginPage.login("admin@admin.com", "12345");
+        Thread.sleep(1000);
+        homePage.getAdminBtn().click();
+        Thread.sleep(1000);
+        adminCitiesPage.getCitiesBtn().click();
+        String cityName = "Mumbaj";
         adminCitiesPage.createNewCity(cityName);
         String actualMessage = adminCitiesPage.getSaveMessageField().getText();
         String expectedMessage = "Saved successfully";
-        Assert.assertTrue(actualMessage.contains(expectedMessage));
-        homePage.logout();
 
+        // Verify that the message contains the text Saved successfully
+        Assert.assertTrue(actualMessage.contains(expectedMessage));
 
     }
 
-    //Test #3: Edit city
-    //Podaci: edituje se grad koji je u testu 2 kreiran na isto ime + - edited (primer: Beograd – Beograd edited)
-    //assert:
-    //•	Verifikovati da poruka sadrzi tekst Saved successfully
 
     @Test(dependsOnMethods = {"createNewCityTest"})
     public void editCityTest() throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        String adminEmail = "admin@admin.com";
-        String password = "12345";
-        loginPage.login(adminEmail, password);                                                       //logovanje pomocu metode iz login page
+        loginPage.login("admin@admin.com", "12345");
+        Thread.sleep(1500);
+        homePage.getAdminBtn().click();
         Thread.sleep(1000);
-        homePage.getAdminBtn().click();                                                               //klik na AdminBTN iz home page
-        Thread.sleep(1000);
-        adminCitiesPage.getCitiesBtn().click();                                                       //klik na BTN cities iz AdminCities Page
-        Thread.sleep(1000);                                                                     //bez threada nece da radi
-
+        adminCitiesPage.getCitiesBtn().click();
 
         WebElement myCityNameEditBtn = driver.findElement(By.id("edit"));
         myCityNameEditBtn.click();
         WebElement cityNameEditField = driver.findElement(By.id("name"));
         cityNameEditField.click();
         cityNameEditField.sendKeys(Keys.CONTROL + "a" + Keys.DELETE);
-        // Thread.sleep(1000);
-        cityNameEditField.sendKeys("Mumbaj-edited");                                      //prosledjujem tekst za editovanje
-        WebElement saveBtn = driver.findElement(By.xpath(
-                "//*[@id=\"app\"]/div[5]/div/div/div[3]/button[2]"));
 
-        saveBtn.click();
+        cityNameEditField.sendKeys("Mumbaj-edited");
+
+        adminCitiesPage.getSaveBtnCity().click();
         Thread.sleep(2000);
+        adminCitiesPage.getSaveMessageField().getText();
 
-        WebElement messageField = driver.findElement                                                  //pronalazim polje sa porukom
-                (By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
         String expectedMessage = "Saved successfully";
-        String actualMesage = messageField.getText();
+        String actualMesage = adminCitiesPage.getSaveMessageField().getText();
 
+        //Verify that the message contains the text Saved successfully
         Assert.assertTrue(actualMesage.contains(expectedMessage));
-        homePage.logout();
-
 
     }
 
@@ -111,43 +89,39 @@ public class AdminCitiesTest extends BaseTest {
     public void searchCityTest() throws InterruptedException {
         homePage.openLoginPage();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        String adminEmail = "admin@admin.com";
-        String password = "12345";
-        loginPage.login(adminEmail, password);                                                       //logovanje pomocu metode iz login page
-        Thread.sleep(1000);
-        homePage.getAdminBtn().click();                                                               //klik na AdminBTN iz home page
-        Thread.sleep(1000);
-        adminCitiesPage.getCitiesBtn().click();                                                       //klik na BTN cities iz AdminCities Page
-        Thread.sleep(1000);                                                                     //bez threada nece da radi
+        loginPage.login("admin@admin.com", "12345");
+        homePage.getAdminBtn().click();
+        adminCitiesPage.getCitiesBtn().click();
 
         adminCitiesPage.searchCity();
         Thread.sleep(2000);
         String expectedResult = "Mumbaj";
         String actualResult = adminCitiesPage.getNameCity().getText();
+
+        //Verify that there is text from the search in the Name column of the first row
         Assert.assertTrue(actualResult.contains(expectedResult));
-        homePage.logout();
 
 
     }
 
-    @Test(priority = 5)
-    public void deleteCityTest() throws InterruptedException {
+
+    @Test(dependsOnMethods = {"editCityTest", "createNewCityTest"})
+    public void deleteCity() throws InterruptedException {
         homePage.openLoginPage();
-       // Thread.sleep(2000);
         loginPage.login("admin@admin.com", "12345");
-      //  Thread.sleep(2000);
-        homePage.getAdminBtn().click();                                                               //klik na AdminBTN iz home page
-       // Thread.sleep(1000);
-        adminCitiesPage.getCitiesBtn().click();                                                       //klik na BTN cities iz AdminCities Page
-        Thread.sleep(1000);                                                                     //bez threada nece da radi
+        homePage.getAdminBtn().click();
+        adminCitiesPage.getCitiesBtn().click();
 
         adminCitiesPage.deleteCity();
-        webDriverWait.until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"),"Deleted successfully\nCLOSE"));
 
+        webDriverWait.until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"), "Deleted successfully\nCLOSE"));
 
         String expectedResult = "Deleted successfully";
         String actualResult = adminCitiesPage.getDeleteCityMessage().getText();
+        //  Verify that the message contains the text Deleted successfully
         Assert.assertTrue(actualResult.contains(expectedResult));
-        homePage.logout();
+
     }
+
+
 }
